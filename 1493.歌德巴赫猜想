@@ -1,0 +1,90 @@
+# 歌德巴赫猜想
+
+_**难度: Lv.1**_
+
+## _[问题](http://hihocoder.com/problemset/problem/1493)_
+时间限制:10000ms
+
+单点时限:1000ms
+
+内存限制:256MB
+
+**描述**
+哥德巴赫猜想认为“每一个大于2的偶数，都能表示成两个质数之和”。
+
+给定一个大于2的偶数N，你能找到两个质数P和Q满足P<=Q并且P+Q=N吗？
+
+**输入**
+一个偶数N(4 <= N <= 1000000)
+
+**输出**
+输出P和Q。如果有多组解，输出P最小的一组。
+
+**样例输入**
+```
+10
+```
+**样例输出**
+```
+3 7
+```
+
+## 思路
+> 主要在于质数的判断，可以写一个函数判断一个数是否是质数，
+也可以先得出1000000范围的质数，再判断一个数是否是质数。
+
+## 代码
+```java
+import java.util.Scanner;
+
+/**
+ * 歌德巴赫猜想
+ */
+public class Main {
+    /*public static boolean isPrime(int n) {
+        if (n <= 3)
+            return n > 1;
+        for (int i = 2; i <= Math.sqrt(n); i++) {
+            if (n % i == 0) return false;
+        }
+        return true;
+    }
+
+    public static void main(String []args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        for (int i = 2; i <= n / 2; i++) {
+            if(isPrime(i) && isPrime(n - i)) {
+                System.out.println(i + " " + (n - i));
+                break;
+            }
+        }
+    }*/
+
+    public static void main(String []args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        final int MAXN = 1000000 + 5;
+        boolean []primes = new boolean[MAXN];
+            /**
+             * MAXN范围内的素数
+             * primes[i] = false 表示素数
+             * primes[i] = true 表示非素数
+             */
+        primes[1] = true;
+        for (int i = 2; i < MAXN; i++) {
+            if(!primes[i]) {
+                for (int j = i+i; j < MAXN; j += i)
+                    primes[j] = true;
+            }
+        }
+
+        for (int i = 2; i <= n / 2; i++) {
+            if(!primes[i] && !primes[n - i]) {
+                System.out.println(i + " " + (n - i));
+                break;
+            }
+        }
+    }
+}
+```
